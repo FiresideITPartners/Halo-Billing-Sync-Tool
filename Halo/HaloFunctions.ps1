@@ -1,5 +1,3 @@
-$HaloclientId = get-secret -Name $config.halo.clientID -vault $config.keyvault -asplaintext
-$HaloclientSecret = get-secret -Name $config.halo.clientSecret -vault $config.keyvault -asplaintext
 function Connect-HaloPSA {
     <#
 .SYNOPSIS
@@ -33,18 +31,28 @@ Connect-HaloPSA -clientId "clientID" -clientSecret "clientSecret" -HaloAuthUrl "
         [Parameter()]
         [string]$HaloURI = $config.halo.HalobaseURI
     )
+    try {
+        $HaloclientId = get-secret -Name $config.halo.clientID -vault $config.keyvault -asplaintext
+    } catch {
+        throw "Failed to retrieve client ID from KeyVault: $($_.Exception.Message)"
+    }
+    try { 
+        $HaloclientSecret = get-secret -Name $config.halo.clientSecret -vault $config.keyvault -asplaintext
+    } catch { 
+        throw "Failed to retrieve client secret from KeyVault: $($_.Exception.Message)"
+    }
     $HaloAuthUrl = $HaloURI + "/auth/token"
     $body = @{
         grant_type = "client_credentials"
-        client_id = $clientId
-        client_secret = $clientSecret
+        client_id = $HaloclientId
+        client_secret = $HaloclientSecret
         scope = "all"
     }
     try {
         $halotoken = Invoke-RestMethod -StatusCodeVariable "statusCode" -Method Post -Uri $HaloAuthUrl -Body $body
     }
     catch {
-        $halotoken = $statusCode
+        throw "Failed to retrieve token from Halo API: $($_.Exception.Message)"
     }
     return $halotoken
 }
@@ -58,7 +66,28 @@ param (
     [Parameter()]
     $haloURI = $config.halo.HalobaseURI + "/api/client"
     )
-    $halotoken = Connect-HaloPSA
+    <#try {
+        $halotoken = Connect-HaloPSA
+    } catch { 
+        throw "Failed to authenticate to Halo API: $($_.Exception.Message)"
+    }#>
+    #Check if there is an existing token and it hasn't expired
+    if ($null -eq $halotoken) {
+        $halotoken = Connect-HaloPSA
+        $haloTokenIssue = Get-Date
+    } else {
+            # Calculate the time when the token is set to expire
+            $expiryTime = $haloTokenIssue.AddSeconds($halotoken.expires_in)
+            # Subtract 90 seconds to account for any response delays
+            $expiryTime = $expiryTime.AddSeconds(-90)
+            Write-Debug -Message "Token Expires at $($expiryTime)"
+            if ((Get-Date) -gt $expiryTime) {
+                Write-Debug -Message "Token has expired, get a new one"
+                $halotoken = Connect-HaloPSA
+            } else {
+                Write-Debug -Message "Token is still valid, use the existing token"
+            }
+    }
     if ($companyID) {
         $uri = "$haloURI/$companyID"
     } elseif ($companyname) {
@@ -111,7 +140,28 @@ function Update-Table {
         [Parameter(Position = 1)]
         [string]$haloURI = $config.halo.HalobaseURI
     )
-    $halotoken = Connect-HaloPSA
+    <#try {
+        $halotoken = Connect-HaloPSA
+    } catch { 
+        throw "Failed to authenticate to Halo API: $($_.Exception.Message)"
+    }#>
+    #Check if there is an existing token and it hasn't expired
+    if ($null -eq $halotoken) {
+        $halotoken = Connect-HaloPSA
+        $haloTokenIssue = Get-Date
+    } else {
+        # Calculate the time when the token is set to expire
+        $expiryTime = $haloTokenIssue.AddSeconds($halotoken.expires_in)
+        # Subtract 90 seconds to account for any response delays
+        $expiryTime = $expiryTime.AddSeconds(-90)
+        Write-Debug -Message "Token Expires at $($expiryTime)"
+        if ((Get-Date) -gt $expiryTime) {
+            Write-Debug -Message "Token has expired, get a new one"
+            $halotoken = Connect-HaloPSA
+        } else {
+            Write-Debug -Message "Token is still valid, use the existing token"
+        }
+    }
     $uri = $haloURI + "/api/CustomTable"
     $token = $halotoken.access_token
     $headers = @{
@@ -177,10 +227,5 @@ function Update-Table {
             }
         }
     }
-
-
-
-
-#$jsonbody = $body | ConvertTo-Json -Depth 20
     return $response
 }
