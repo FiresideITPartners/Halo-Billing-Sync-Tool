@@ -3,3 +3,4 @@ Config/*.xml
 Config/variables.json
 SCRATCH/*
 *.log
+*.csv
