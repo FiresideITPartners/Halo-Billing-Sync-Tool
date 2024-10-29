@@ -30,15 +30,17 @@ There will be some setup prerequisites to get this running.  Ideally we will scr
 ### Overall App Functionality
 
 - Menu (Launching Point)
-- Save-Credentials (Add API credentials to Secrets Vault)
-- Unlock-KeyVAult (Unlocks Configured Keyvault for use in App)
+- *Save-Credentials (Add API credentials to Secrets Vault)*
+  - **Decided to leave KeyVault management to end user.  Shifted to a config.json file where the secret names can be stored and recalled.**
+- *Unlock-KeyVAult (Unlocks Configured Keyvault for use in App)*
 - HaloAuthentication (Built, need to implement in a way that can be used by other companies)  
+  - **Uses config file variables, the individual using this just needs to add their secret names to the variables in config.json**
 - New-HaloCustomTable (Optional, part of initial deployment and setup)
-- Add-HaloCustomTableField (Same as above)
-  - Will be iterated for each field added to a table  
+  - **I will leave this as a manual deployment step, too many variables to account for between environments.  Custom Table variables will then be set in the config.json to allow custom labels without having to modify scripts.**
 - Set-HaloCustomTableData (Add Data to CustomTable)  
   - Will we use a single Function for setting Data and pass hash-table for fields and values, or create a function for each table?  
 - Get-HaloCustomers (List Active Halo Clients)
+  - **Current Method is to do a single company lookup per company found in third party.  Halo's API has very noisy output, so this should limit memory usage and response sizes.**
 - Get-HaloSuppliers (List Active Halo Suppliers.  ThirdParty syncs will be mapped to Suppliers)
 - New-HaloSupplier (Create New Supplier)
 - New-HaloSubscription (Creates a new subscription for a tenant)
