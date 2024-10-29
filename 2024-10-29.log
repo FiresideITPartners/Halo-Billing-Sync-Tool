@@ -1,0 +1,141 @@
+2024-10-29 13:36:24 - Verifying Keyvault is configured
+2024-10-29 13:36:24 - KeyVault already configured
+2024-10-29 13:36:36 - Exiting
+2024-10-29 13:40:07 - ###############################################
+2024-10-29 13:40:07 - Billing Sync Script Started
+2024-10-29 13:40:07 - ###############################################
+2024-10-29 13:40:07 - Verifying Keyvault is configured
+2024-10-29 13:40:07 - KeyVault already configured
+2024-10-29 13:40:07 - Checking KeyVault access
+2024-10-29 13:40:08 - KeyVault access verified
+2024-10-29 13:49:01 - Exiting
+2024-10-29 14:10:15 - ###############################################
+2024-10-29 14:10:15 - Billing Sync Script Started
+2024-10-29 14:10:15 - ###############################################
+2024-10-29 14:10:15 - Verifying Keyvault is configured
+2024-10-29 14:10:15 - KeyVault already configured
+2024-10-29 14:10:15 - Checking KeyVault access
+2024-10-29 14:10:21 - KeyVault access verified
+2024-10-29 14:10:27 - Running Map Huntress Companies
+2024-10-29 14:10:27 - Beginning to map Huntress Clients to Halo Companies
+2024-10-29 14:10:27 - Getting Current Mapping
+2024-10-29 14:10:28 - Getting Huntress Organizations
+2024-10-29 14:10:28 - Getting Huntress Organizations
+2024-10-29 14:10:29 - Getting Huntress Organizations from https://api.huntress.io/v1/organizations?limit=200
+2024-10-29 14:10:31 - Halo Token is null, getting a new one
+2024-10-29 14:10:32 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:10:33 - Halo Token is null, getting a new one
+2024-10-29 14:10:34 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:10:34 - Halo Company not found for Brenda Wrench. You will need to map manually.
+2024-10-29 14:10:34 - Halo Token is null, getting a new one
+2024-10-29 14:10:36 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:10:37 - Halo Company not found for Pet-Tek Distribution. You will need to map manually.
+2024-10-29 14:10:37 - Halo Token is null, getting a new one
+2024-10-29 14:10:38 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:10:38 - Halo Company not found for Dr. C. You will need to map manually.
+2024-10-29 14:11:46 - ###############################################
+2024-10-29 14:11:46 - Billing Sync Script Started
+2024-10-29 14:11:46 - ###############################################
+2024-10-29 14:11:46 - Verifying Keyvault is configured
+2024-10-29 14:11:46 - KeyVault already configured
+2024-10-29 14:11:46 - Checking KeyVault access
+2024-10-29 14:11:47 - KeyVault access verified
+2024-10-29 14:11:50 - Running Map Huntress Companies
+2024-10-29 14:11:50 - Beginning to map Huntress Clients to Halo Companies
+2024-10-29 14:11:50 - Getting Current Mapping
+2024-10-29 14:11:52 - Getting Huntress Organizations
+2024-10-29 14:11:52 - Getting Huntress Organizations
+2024-10-29 14:11:53 - Getting Huntress Organizations from https://api.huntress.io/v1/organizations?limit=200
+2024-10-29 14:11:54 - Halo Token is null, getting a new one
+2024-10-29 14:11:55 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:11:56 - Halo Token is null, getting a new one
+2024-10-29 14:11:57 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:11:58 - Halo Company not found for Brenda Wrench. You will need to map manually.
+2024-10-29 14:11:58 - Halo Token is null, getting a new one
+2024-10-29 14:11:59 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:11:59 - Halo Company not found for Pet-Tek Distribution. You will need to map manually.
+2024-10-29 14:11:59 - Halo Token is null, getting a new one
+2024-10-29 14:12:00 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:12:01 - Halo Company not found for Dr. C. You will need to map manually.
+2024-10-29 14:15:11 - ###############################################
+2024-10-29 14:15:11 - Billing Sync Script Started
+2024-10-29 14:15:11 - ###############################################
+2024-10-29 14:15:11 - Verifying Keyvault is configured
+2024-10-29 14:15:11 - KeyVault already configured
+2024-10-29 14:15:11 - Checking KeyVault access
+2024-10-29 14:15:12 - KeyVault access verified
+2024-10-29 14:15:14 - Running Map Huntress Companies
+2024-10-29 14:15:14 - Beginning to map Huntress Clients to Halo Companies
+2024-10-29 14:15:14 - Getting Current Mapping
+2024-10-29 14:15:16 - Getting Huntress Organizations
+2024-10-29 14:15:16 - Getting Huntress Organizations
+2024-10-29 14:15:17 - Getting Huntress Organizations from https://api.huntress.io/v1/organizations?limit=200
+2024-10-29 14:15:18 - Halo Token is null, getting a new one
+2024-10-29 14:15:19 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:15:19 - Halo Token is null, getting a new one
+2024-10-29 14:15:20 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:15:21 - Halo Company not found for Brenda Wrench. You will need to map manually.
+2024-10-29 14:15:21 - Halo Token is null, getting a new one
+2024-10-29 14:15:22 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:15:23 - Halo Company not found for Pet-Tek Distribution. You will need to map manually.
+2024-10-29 14:15:23 - Halo Token is null, getting a new one
+2024-10-29 14:15:24 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:15:24 - Halo Company not found for Dr. C. You will need to map manually.
+2024-10-29 14:15:37 - Mapping Huntress Clients to Halo Companies complete. Returning to Menu.
+2024-10-29 14:18:44 - Exiting
+2024-10-29 14:18:52 - ###############################################
+2024-10-29 14:18:52 - Billing Sync Script Started
+2024-10-29 14:18:52 - ###############################################
+2024-10-29 14:18:53 - Verifying Keyvault is configured
+2024-10-29 14:18:53 - KeyVault already configured
+2024-10-29 14:18:53 - Checking KeyVault access
+2024-10-29 14:18:53 - KeyVault access verified
+2024-10-29 14:18:54 - Running Map Huntress Companies
+2024-10-29 14:18:54 - Beginning to map Huntress Clients to Halo Companies
+2024-10-29 14:18:55 - Getting Current Mapping
+2024-10-29 14:18:56 - Getting Huntress Organizations
+2024-10-29 14:18:56 - Getting Huntress Organizations
+2024-10-29 14:18:57 - Getting Huntress Organizations from https://api.huntress.io/v1/organizations?limit=200
+2024-10-29 14:18:58 - Halo Token is null, getting a new one
+2024-10-29 14:18:59 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:19:00 - Halo Token is null, getting a new one
+2024-10-29 14:19:01 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:19:01 - Halo Company not found for Brenda Wrench. You will need to map manually.
+2024-10-29 14:19:01 - Halo Token is null, getting a new one
+2024-10-29 14:19:02 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:19:03 - Halo Company not found for Pet-Tek Distribution. You will need to map manually.
+2024-10-29 14:19:03 - Halo Token is null, getting a new one
+2024-10-29 14:19:04 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:19:05 - Halo Company not found for Dr. C. You will need to map manually.
+2024-10-29 14:19:05 - Mapping Huntress Clients to Halo Companies complete. Returning to Menu.
+2024-10-29 14:19:30 - Exiting
+2024-10-29 14:19:43 - ###############################################
+2024-10-29 14:19:43 - Billing Sync Script Started
+2024-10-29 14:19:43 - ###############################################
+2024-10-29 14:19:43 - Verifying Keyvault is configured
+2024-10-29 14:19:43 - KeyVault already configured
+2024-10-29 14:19:43 - Checking KeyVault access
+2024-10-29 14:19:44 - KeyVault access verified
+2024-10-29 14:19:46 - Running Map Huntress Companies
+2024-10-29 14:19:46 - Beginning to map Huntress Clients to Halo Companies
+2024-10-29 14:19:46 - Getting Current Mapping
+2024-10-29 14:19:47 - Getting Huntress Organizations
+2024-10-29 14:19:47 - Getting Huntress Organizations
+2024-10-29 14:19:48 - Getting Huntress Organizations from https://api.huntress.io/v1/organizations?limit=200
+2024-10-29 14:19:49 - Halo Token is null, getting a new one
+2024-10-29 14:19:50 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:19:51 - Halo Token is null, getting a new one
+2024-10-29 14:19:52 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:19:53 - Halo Company not found for Brenda Wrench. You will need to map manually.
+2024-10-29 14:19:53 - Halo Token is null, getting a new one
+2024-10-29 14:19:54 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:19:54 - Halo Company not found for Pet-Tek Distribution. You will need to map manually.
+2024-10-29 14:19:55 - Halo Token is null, getting a new one
+2024-10-29 14:19:56 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:19:56 - Halo Company not found for Dr. C. You will need to map manually.
+2024-10-29 14:20:18 - Halo Token is null, getting a new one
+2024-10-29 14:20:19 - Getting Token from https://service.firesideit.ca/auth/token
+2024-10-29 14:20:19 - Table updated with 0 records
+2024-10-29 14:20:19 - Table update log saved to C:\Users\TimothyMcBride\Git\Halo-Billing-Sync-Tool\MappingOutput_2024-10-29.csv
+2024-10-29 14:20:19 - Mapping Huntress Clients to Halo Companies complete. Returning to Menu.
+2024-10-29 14:20:31 - Exiting

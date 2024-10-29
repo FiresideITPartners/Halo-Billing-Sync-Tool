@@ -1,0 +1,30 @@
+{
+    "keyvault": "Az.keyvault",
+    "halo": {
+        "halobaseURI": "https://service.firesideit.ca",
+        "clientID": "HaloClientID",
+        "clientSecret": "HaloClientSecret",
+        "reportprofile": "HaloReportApiKey",
+        "reportsecret": "HaloReportApiSecret",
+        "syncmapreport": "1cee0f5b-bcbe-46cf-bf0d-5f8b52c8c511",
+        "custom_table": {
+            "id": 1009,
+            "halo_customer": "CFMappedHaloCustomer",
+            "supplier": "CFsyncsupplier",
+            "Supplier_customer_id": "CFbillingsyncID"
+        }
+    },
+    "huntress": {
+        "HaloSupplierID": 17,
+        "huntressbaseURI": "https://api.huntress.io/v1",
+        "clientID": "HuntressAPIKey",
+        "clientSecret": "HuntressAPISecret",
+        "product": [
+            {
+                "Name": "EDR",
+                "HaloItem": "55"
+            }
+        ]
+    }
+
+}
