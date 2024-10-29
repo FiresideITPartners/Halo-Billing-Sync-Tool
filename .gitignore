@@ -1,6 +1,6 @@
 # Exclude all .xml files in the Config subdirectory
 Config/*.xml
-Config/variables.json
 SCRATCH/*
 *.log
 *.csv
+*.json
