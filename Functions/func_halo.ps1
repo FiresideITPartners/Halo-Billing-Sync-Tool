@@ -1,55 +1,24 @@
-function Connect-HaloPSA {
-    <#
-.SYNOPSIS
-Gets Bearer Token for HaloPSA API
-
-.DESCRIPTION
-Gets Bearer Token for HaloPSA API using client credentials.  API user and credentials must be created in Halo API.  
-
-.PARAMETER clientId
-Specifies the Client ID for Halo PSA API user.
-
-.PARAMETER clientSecret
-Specifies the Client Secret for Halo PSA API user.
-
-.PARAMETER HaloAuthUrl
-Specifies the Authorization endpoint for HaloPSA API.  Usually https://yourhalodomain.com/auth/token
-
-.OUTPUTS
-Returns the full response from the Authorization endpoint as a custom object.  
-Reference $_.access_token for the Bearer Token in future calls. $_.expires_in will allow you to calculate expiry time.
-
-.EXAMPLE
-Connect-HaloPSA -clientId "clientID" -clientSecret "clientSecret" -HaloAuthUrl "https://yourhalodomain.com/auth/token"
-@{scope=DEFINED SCOPES; token_type=Bearer; access_token=ACCESS_TOKEN; expires_in=3600; refresh_token=REFRESH_TOKEN; id_token=ID_TOKEN}
-#>
-    Param(
-        [Parameter()]
-        [string]$clientId = $HaloclientId,
-        [Parameter()]
-        [string]$clientSecret = $HaloclientSecret,
-        [Parameter()]
-        [string]$HaloURI = $config.halo.HalobaseURI
-    )
-    try {
-        $HaloclientId = get-secret -Name $config.halo.clientID -vault $config.keyvault -asplaintext
+function Get-NewHaloPSAToken {
+  # Get the client ID and secret from the keyvault referenced in the config file.
+  try {
+    $HaloclientId = get-secret -Name $config.halo.clientID -vault $config.keyvault -asplaintext
+    $HaloclientSecret = get-secret -Name $config.halo.clientSecret -vault $config.keyvault -asplaintext
     } catch {
-        Write-Log -message "Failed to retrieve client ID from KeyVault: $($_.Exception.Message)"
-        throw "Failed to retrieve client ID from KeyVault: $($_.Exception.Message)"
+    Write-Log -message "Failed to retrieve client ID or secret from KeyVault: $($_.Exception.Message)"
+    throw "Failed to retrieve client ID or secret from KeyVault: $($_.Exception.Message)"
     }
-    try { 
-        $HaloclientSecret = get-secret -Name $config.halo.clientSecret -vault $config.keyvault -asplaintext
-    } catch { 
-        Write-Log -message "Failed to retrieve client secret from KeyVault: $($_.Exception.Message)"
-        throw "Failed to retrieve client secret from KeyVault: $($_.Exception.Message)"
-    }
-    $HaloAuthUrl = $HaloURI + "/auth/token"
+    
+    #HALO Base Url is defined in the config file.  Joining it to the standard Halo Auth path
+    $HaloAuthUrl = $config.halo.HalobaseURI + "/auth/token"
+    #Build Request Body
     $body = @{
         grant_type = "client_credentials"
         client_id = $HaloclientId
         client_secret = $HaloclientSecret
         scope = "all"
     }
+
+    #Get the token from the Halo API, catching the exception if it fails.  Failure at this point is a critical error and will stop the script.
     Write-log -message "Getting Token from $HaloAuthUrl"
     try {
         $halotoken = Invoke-RestMethod -StatusCodeVariable "statusCode" -Method Post -Uri $HaloAuthUrl -Body $body
@@ -58,7 +27,27 @@ Connect-HaloPSA -clientId "clientID" -clientSecret "clientSecret" -HaloAuthUrl "
         Write-Log -message "Failed to retrieve token from Halo API: $($_.Exception.Message)"
         throw "Failed to retrieve token from Halo API: $($_.Exception.Message)"
     }
-    return $halotoken
+    #Set Global Variables for the token and the expiry time
+    $expirypadded = (Get-Date).AddSeconds($halotoken.expires_in).AddSeconds(-90)
+    $global:HaloToken = $halotoken.access_token
+    $global:HaloTokenExpiry = (Get-Date).AddSeconds($expirypadded)
+}
+function Connect-HaloPSA {
+
+    $currentTimestamp = Get-Date
+
+    if (!$null -eq $global:HaloToken -and $currentTimestamp -lt $global:HaloTokenExpiry) {
+        return = $configToken
+    } else {
+        Try {
+            $halotoken = Get-HaloPSAToken
+        } catch {
+            Write-Log -message "Failed to retrieve token from Halo API: $($_.Exception.Message)"
+            throw "Failed to retrieve token from Halo API: $($_.Exception.Message)"
+        }
+    }
+    Return $global:HaloToken
+
 }
 function Get-HaloOrg {
 [CmdletBinding()]
@@ -70,24 +59,6 @@ param (
     [Parameter()]
     $haloURI = $config.halo.HalobaseURI + "/api/client"
     )
-    #Check if there is an existing token and it hasn't expired
-    if ($null -eq $halotoken) {
-        Write-Log -message "Halo Token is null, getting a new one"
-        $halotoken = Connect-HaloPSA
-        $haloTokenIssue = Get-Date
-    } else {
-            # Calculate the time when the token is set to expire
-            $expiryTime = $haloTokenIssue.AddSeconds($halotoken.expires_in)
-            # Subtract 90 seconds to account for any response delays
-            $expiryTime = $expiryTime.AddSeconds(-90)
-            Write-Log -Message "Token Expires at $($expiryTime)"
-            if ((Get-Date) -gt $expiryTime) {
-                Write-Log -Message "Token has expired, get a new one"
-                $halotoken = Connect-HaloPSA
-            } else {
-                Write-Log -Message "Token is still valid, use the existing token"
-            }
-    }
     if ($companyID) {
         $uri = "$haloURI/$companyID"
     } elseif ($companyname) {
@@ -99,7 +70,7 @@ param (
     try {
         $token = $halotoken.access_token
         $headers = @{
-            Authorization = "Bearer $token"
+            Authorization = "Bearer $(Get-HaloPSAToken)"
         }
         $response = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers
     } catch {
