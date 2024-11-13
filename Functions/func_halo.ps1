@@ -28,19 +28,20 @@ function Get-NewHaloPSAToken {
         throw "Failed to retrieve token from Halo API: $($_.Exception.Message)"
     }
     #Set Global Variables for the token and the expiry time
+    #Set Global Variables for the token and the expiry time
     $expirypadded = (Get-Date).AddSeconds($halotoken.expires_in).AddSeconds(-90)
     $global:HaloToken = $halotoken.access_token
-    $global:HaloTokenExpiry = (Get-Date).AddSeconds($expirypadded)
+    $global:HaloTokenExpiry = $expirypadded
 }
 function Connect-HaloPSA {
 
     $currentTimestamp = Get-Date
 
     if (!$null -eq $global:HaloToken -and $currentTimestamp -lt $global:HaloTokenExpiry) {
-        return = $configToken
+        return $global:HaloToken
     } else {
         Try {
-            $halotoken = Get-HaloPSAToken
+            $halotoken = Get-NewHaloPSAToken
         } catch {
             Write-Log -message "Failed to retrieve token from Halo API: $($_.Exception.Message)"
             throw "Failed to retrieve token from Halo API: $($_.Exception.Message)"
@@ -70,7 +71,7 @@ param (
     try {
         $token = $halotoken.access_token
         $headers = @{
-            Authorization = "Bearer $(Get-HaloPSAToken)"
+            Authorization = "Bearer $(Connect-HaloPSA)"
         }
         $response = Invoke-RestMethod -Uri $uri -Method Get -Headers $headers
     } catch {
