@@ -1,39 +1,3 @@
-function Show-Menu {
-    Write-Host "Welcome to the Launch Menu" -ForegroundColor Green
-    Write-Host "Please select an option from the list below" -ForegroundColor Green
-    $i = 1
-    foreach ($script in $scripts) {
-        Write-Host "$i. $($script.BaseName)"
-        $i++
-    }
-    Write-Host "$i. Exit"
-    $selection = Read-Host "Please select an option"
-    if ($selection -eq $i) {
-        Write-Host "Exiting" -ForegroundColor Red
-        Write-Log -message "Exiting"
-        Exit
-    } elseif ($selection -gt $scripts.Count) {
-        Write-Host "Invalid selection" -ForegroundColor Red
-        Write-Log -message "Invalid selection"
-        Show-Menu
-    } else {
-        $script = $scripts[$selection - 1]
-        Write-Host "Running $($script.BaseName)" -ForegroundColor Green
-        Write-Log -message "Running $($script.BaseName)"
-        . $script.FullName
-        Show-Menu
-    }
-}
-function Write-Log {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory = $true)]
-        [string]$message
-    )
-    $date = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-    $logmessage = "$date - $message"
-    Add-Content -Path $logfile -Value $logmessage
-}
 function Test-Keyvault {
     if ($null -eq $config.keyvault) {
         Write-Host "KeyVault not configured." -ForegroundColor Cyan
@@ -83,7 +47,7 @@ function Test-Keyvault {
         Write-Host "Failed to retrieve client ID from KeyVault.  Please check the vault and try again. $($_.Exception.Message)" -ForegroundColor Red
         Write-Log -message "Failed to retrieve client ID from KeyVault"
         Exit
-    } if ($null -eq $kvtest) {
+    } if ($null -eq $kvtest -or $kvtest -like "*not found*") {
         Write-Host "Failed to retrieve client ID from KeyVault.  Please check the vault and try again." -ForegroundColor Red
         Write-Log -message "Failed to retrieve client ID from KeyVault"
         Exit
