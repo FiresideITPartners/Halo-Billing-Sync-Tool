@@ -66,7 +66,7 @@ function Get-MappingDecision {
     $addtomap = Read-Host
     if ($addtomap -eq "A") {
         try {
-            $tableupdate = Update-Table -data $mapping
+            $tableupdate = Update-HaloSyncMappingTable -data $mapping
             Write-Host "Table updated with $($tableupdate.count) records"
             Write-Log -message "Table updated with $($tableupdate.count) records"
             $tableupdatelog = $tableupdate | Select-Object -Property SupplierCompany,status,response
