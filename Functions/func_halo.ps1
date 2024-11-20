@@ -63,7 +63,9 @@ param (
     if ($companyID) {
         $uri = "$haloURI/$companyID"
     } elseif ($companyname) {
-        $uri = $haloURI + "?search_name_only=$companyname"
+        # URL encode the company name
+        $encodedCompanyName = [System.Web.HttpUtility]::UrlEncode($companyname)
+        $uri = $haloURI + "?search_name_only=$encodedCompanyName"
     } else {
         $uri = $haloURI
     }
