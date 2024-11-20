@@ -69,9 +69,7 @@ param (
     } else {
         $uri = $haloURI
     }
-
     try {
-        $token = $halotoken.access_token
         $headers = @{
             Authorization = "Bearer $(Connect-HaloPSA)"
         }
@@ -126,28 +124,9 @@ function Update-Table {
         [Parameter(Position = 1)]
         [string]$haloURI = $config.halo.HalobaseURI
     )
-    #Check if there is an existing token and it hasn't expired
-    if ($null -eq $halotoken) {
-        Write-Log -message "Halo Token is null, getting a new one"
-        $halotoken = Connect-HaloPSA
-        $haloTokenIssue = Get-Date
-    } else {
-            # Calculate the time when the token is set to expire
-            $expiryTime = $haloTokenIssue.AddSeconds($halotoken.expires_in)
-            # Subtract 90 seconds to account for any response delays
-            $expiryTime = $expiryTime.AddSeconds(-90)
-            Write-Log -Message "Token Expires at $($expiryTime)"
-            if ((Get-Date) -gt $expiryTime) {
-                Write-Log -Message "Token has expired, get a new one"
-                $halotoken = Connect-HaloPSA
-            } else {
-                Write-Log -Message "Token is still valid, use the existing token"
-            }
-    }
     $uri = $haloURI + "/api/CustomTable"
-    $token = $halotoken.access_token
     $headers = @{
-        Authorization = "Bearer $token"
+        Authorization = "Bearer $(Connect-HaloPSA)"
         "Content-Type" = "application/json"
     }
     $colHaloCustomer = $config.halo.custom_table.halo_customer

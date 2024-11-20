@@ -37,6 +37,7 @@ foreach ($huntressOrg in $huntressOrgs.organizations) {
             $failedmapping += [PSCustomObject]@{
                 huntressID = $huntressOrg.id
                 huntressName = $huntressOrg.name
+                reason = "Halo Company not found"
             } 
         } elseif ($haloOrg.record_count -eq 1) {
             Write-Log -message "Mapping $($huntressOrg.name) to $($haloOrg.clients.name)"
@@ -52,6 +53,7 @@ foreach ($huntressOrg in $huntressOrgs.organizations) {
             $failedmapping += [PSCustomObject]@{
                 huntressID = $huntressOrg.id
                 huntressName = $huntressOrg.name
+                reason = "Multiple Halo Companies found"
             }
         }
     } Else { 
@@ -59,7 +61,7 @@ foreach ($huntressOrg in $huntressOrgs.organizations) {
     }
 }
 function Get-MappingDecision {
-    Write-Host "There are $($mapping.count) mappings to add." -ForegroundColor Green
+    Write-Host "There are $($mapping.count) mappings to add.  $($failedmapping.count) companies couldn't be matched." -ForegroundColor Green
     Write-Host "Enter A to add mappings to the table, V to view mappings, F to view failed mappings, or any other key to exit" -ForegroundColor Green
     $addtomap = Read-Host
     if ($addtomap -eq "A") {
@@ -73,7 +75,7 @@ function Get-MappingDecision {
             write-log -message "Table update log saved to $mappingoutput"
         } catch {
             Write-Host "Failed to update table.  $($_.Exception.Message)" -ForegroundColor Red
-            Write-Log -message "Failed to update table.  $($_.Exception.Message)"
+            Write-Log -message "Failed to update table.  $($_)"
         }
     } elseif ($addtomap -eq "V") {
         $mapping | Out-GridView -Wait
